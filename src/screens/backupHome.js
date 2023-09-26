@@ -41,14 +41,18 @@ export default function ({ navigation }) {
             <Text fontWeight="bold" style={{ textAlign: "center" }}>
              Rangkuman Bulan Ini
             </Text>
+            
+            <Button 
+              status = "danger"
+              text="Go to second screen"
+              onPress={() => {
+                navigation.navigate("SecondScreen");
+              }}
+              style={{
+                marginTop: 15,
 
-             <Text style={{ textAlign: "center",color: "green" }}>
-                Pemasukan : "8000"
-             </Text>
-
-             <Text style={{ textAlign: "center",color: "red" }}>
-                Pengeluaran : "7000"
-             </Text>
+              }}
+            />
 
             <Button
               text={isDarkmode ? "Light Mode" : "Dark Mode"}
@@ -80,7 +84,7 @@ const styles = StyleSheet.create({
   },
   image: {
     flex: 1,
-    width: '80%',
+    width: '100%',
     backgroundColor: '#0553',
   },
 });
