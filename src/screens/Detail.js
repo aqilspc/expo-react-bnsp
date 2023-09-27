@@ -9,6 +9,7 @@ import
 } from 'react-native';
 import { Layout, Text,Button } from 'react-native-rapi-ui';
 import Constants from 'expo-constants';
+
 import * as SQLite from 'expo-sqlite';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { FontAwesome } from '@expo/vector-icons';
@@ -45,7 +46,7 @@ export default function ({ navigation }) {
     // Membuat tabel jika belum ada
     db.transaction((tx) => {
       tx.executeSql(
-        'CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,tanggal TEXT,nominal TEXT)'
+        'CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,tanggal TEXT,nominal TEXT,tipe TEXT,bulan TEXT)'
       );
     });
 

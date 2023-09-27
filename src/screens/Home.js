@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Linking, StyleSheet } from "react-native";
 import { Image } from 'expo-image';
 import {
@@ -9,11 +9,64 @@ import {
   SectionContent,
   useTheme,
 } from "react-native-rapi-ui";
-
+import * as SQLite from 'expo-sqlite';
+import Moment from 'moment';
 const blurhash =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+const db = SQLite.openDatabase('db.testDb'); // returns Database object
+
 
 export default function ({ navigation }) {
+  const [masuk, setMasuk] = useState('');
+  const [keluar, setKeluar] = useState('');
+  const [saldo, setSaldo] = useState('');
+  Moment.locale('id');
+  var dt = new Date();
+  var bulan = Moment(dt).format('M');
+  var ini = Moment(dt).format('MMMM');
+  const [date, setDate] = useState(new Date());
+
+  useEffect(() => {
+    // Membuat tabel jika belum ada
+    db.transaction((tx) => {
+      tx.executeSql(
+        'CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,tanggal TEXT,nominal TEXT,tipe TEXT,bulan TEXT)'
+      );
+    });
+
+
+    // Mengambil data dari database saat aplikasi dimuat
+    fetchMasuk();
+    fetchKeluar();
+    saldoGet();
+  }, []);
+
+  const fetchMasuk = () => {
+    db.transaction((tx) => {
+      tx.executeSql('SELECT sum(nominal) as nominal FROM items WHERE tipe = "masuk" AND bulan = "9"', [], (_, { rows }) => {
+        const len = rows.item(0).nominal;
+         console.log(`Data masuk: ${len}`);
+         setMasuk(len);
+      });
+    });
+  };
+
+   const fetchKeluar = () => {
+    db.transaction((tx) => {
+      tx.executeSql('SELECT sum(nominal) as nominal FROM items WHERE tipe = "keluar" AND  bulan = "9"', [], (_, { rows }) => {
+        const len = rows.item(0).nominal;
+         console.log(`Data keluar: ${len}`);
+         setKeluar(len);
+      });
+    });
+  };
+
+  const saldoGet = () => {
+    let oke = masuk - keluar;
+    console.log(oke); 
+    setSaldo(oke);
+  };
+
   const { isDarkmode, setTheme } = useTheme();
   return (
     <Layout>
@@ -39,15 +92,19 @@ export default function ({ navigation }) {
         <Section>
           <SectionContent>
             <Text fontWeight="bold" style={{ textAlign: "center" }}>
-             Rangkuman Bulan Ini
+             Rangkuman Bulan Ini {ini}
             </Text>
 
              <Text style={{ textAlign: "center",color: "green" }}>
-                Pemasukan : "8000"
+                Pemasukan : Rp. {parseInt(masuk).toLocaleString()}
              </Text>
 
              <Text style={{ textAlign: "center",color: "red" }}>
-                Pengeluaran : "7000"
+                Pengeluaran : Rp. {parseInt(keluar).toLocaleString()}
+             </Text>
+
+              <Text style={{ textAlign: "center",color: "orange" }}>
+                Saldo : Rp. {parseInt(saldo).toLocaleString()}
              </Text>
 
             <Button

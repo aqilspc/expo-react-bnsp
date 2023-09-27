@@ -11,7 +11,7 @@ import { Layout, Text,Button } from 'react-native-rapi-ui';
 import Constants from 'expo-constants';
 import * as SQLite from 'expo-sqlite';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
+import Moment from 'moment';
 
 const db = SQLite.openDatabase('db.testDb'); // returns Database object
 
@@ -19,7 +19,9 @@ export default function ({ navigation }) {
   const [name, setName] = useState('');
   const [nominal, setNominal] = useState('');
   const [items, setItems] = useState([]);
-
+  Moment.locale('id');
+  var dt = new Date();
+  var bulan = Moment(dt).format('M');
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
@@ -45,7 +47,7 @@ export default function ({ navigation }) {
     // Membuat tabel jika belum ada
     db.transaction((tx) => {
       tx.executeSql(
-        'CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,tanggal TEXT,nominal TEXT)'
+        'CREATE TABLE IF NOT EXISTS items (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,tanggal TEXT,nominal TEXT,tipe TEXT,bulan TEXT)'
       );
     });
  //    db.transaction((tx) => {
@@ -91,8 +93,8 @@ export default function ({ navigation }) {
 
   const addItem = () => {
     db.transaction((tx) => {
-      tx.executeSql('INSERT INTO items (name,nominal,tanggal,tipe) VALUES (?,?,?,?)', 
-      	[name,nominal,date.toLocaleString(),'keluar'], (_, { insertId }) => {
+      tx.executeSql('INSERT INTO items (name,nominal,tanggal,tipe,bulan) VALUES (?,?,?,?,?)', 
+      	[name,nominal,date.toLocaleString(),'keluar',bulan], (_, { insertId }) => {
         console.log(`Data berhasil ditambahkan dengan ID: ${insertId}`);
         fetchItems(); // Memuat ulang data setelah menambahkan
         setName(''); // Mengosongkan input setelah menambahkan
