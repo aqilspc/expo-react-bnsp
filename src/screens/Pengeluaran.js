@@ -62,7 +62,7 @@ export default function ({ navigation }) {
 
   const fetchItems = () => {
     db.transaction((tx) => {
-      tx.executeSql('SELECT * FROM items WHERE tipe ="masuk"', [], (_, { rows }) => {
+      tx.executeSql('SELECT * FROM items WHERE tipe ="keluar" ', [], (_, { rows }) => {
         const data = [];
         const len = rows.length;
         for (let i = 0; i < len; i++) {
@@ -92,7 +92,7 @@ export default function ({ navigation }) {
   const addItem = () => {
     db.transaction((tx) => {
       tx.executeSql('INSERT INTO items (name,nominal,tanggal,tipe) VALUES (?,?,?,?)', 
-      	[name,nominal,date.toLocaleString(),'masuk'], (_, { insertId }) => {
+      	[name,nominal,date.toLocaleString(),'keluar'], (_, { insertId }) => {
         console.log(`Data berhasil ditambahkan dengan ID: ${insertId}`);
         fetchItems(); // Memuat ulang data setelah menambahkan
         setName(''); // Mengosongkan input setelah menambahkan
@@ -134,7 +134,7 @@ export default function ({ navigation }) {
 		    paddingTop: 30,
 		    marginBottom: 10,
 		  }}>
-      	Tambahkan Pemasukan
+      	Tambahkan Pengeluaran
       </Text>
 
 	<Button status="warning" onPress={showDatepicker} text="Pilih Tanggal" />
