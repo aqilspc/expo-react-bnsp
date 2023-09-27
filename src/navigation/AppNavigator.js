@@ -10,7 +10,7 @@ import TabBarText from "../components/utils/TabBarText";
 import Home from "../screens/Home";
 import SecondScreen from "../screens/SecondScreen";
 import About from "../screens/About";
-import Profile from "../screens/Profile";
+import Pemasukan from "../screens/Pemasukan";
 
 const MainStack = createNativeStackNavigator();
 const Main = () => {
@@ -53,8 +53,8 @@ const MainTabs = () => {
         }}
       />
       <Tabs.Screen
-        name="Profile"
-        component={Profile}
+        name="Pemasukan"
+        component={Pemasukan}
         options={{
           tabBarLabel: ({ focused }) => (
             <TabBarText focused={focused} title="Pemasukan" />
