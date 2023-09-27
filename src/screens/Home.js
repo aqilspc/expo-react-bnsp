@@ -38,7 +38,7 @@ export default function ({ navigation }) {
     // Mengambil data dari database saat aplikasi dimuat
     fetchMasuk();
     fetchKeluar();
-    saldoGet();
+    //saldoGet();
   }, []);
 
   const fetchMasuk = () => {
@@ -61,11 +61,11 @@ export default function ({ navigation }) {
     });
   };
 
-  const saldoGet = () => {
-    let oke = masuk - keluar;
-    console.log(oke); 
-    setSaldo(oke);
-  };
+  // const saldoGet = () => {
+  //   let oke = masuk - keluar;
+  //   console.log(oke); 
+  //   setSaldo(oke);
+  // };
 
   const { isDarkmode, setTheme } = useTheme();
   return (
@@ -104,7 +104,7 @@ export default function ({ navigation }) {
              </Text>
 
               <Text style={{ textAlign: "center",color: "orange" }}>
-                Saldo : Rp. {parseInt(saldo).toLocaleString()}
+                Saldo : Rp. {parseInt(masuk - keluar).toLocaleString()}
              </Text>
 
             <Button
