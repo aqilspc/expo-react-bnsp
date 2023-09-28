@@ -43,7 +43,7 @@ export default function App() {
       const y = await AsyncStorage.getItem('logged_in');
       setUsername(x);
       setLoggedIn(y);
-       console.log('ss');
+       //console.log('ss');
     } catch (e) {
       console.log(e);
     }

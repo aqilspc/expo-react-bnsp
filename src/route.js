@@ -12,6 +12,7 @@ import SecondScreen from "./screens/SecondScreen";
 import Pengeluaran from "./screens/Pengeluaran";
 import Pemasukan from "./screens/Pemasukan";
 import Detail from "./screens/Detail";
+import Profile from "./screens/Profile";
 // import Signup from "./Signup";
 // import Home from "./Home";
 // import Note from "./Note";
@@ -96,7 +97,7 @@ const MainTabs = () => {
 
        <Tabs.Screen
         name="Profil"
-        component={Detail}
+        component={Profile}
         options={{
           tabBarLabel: ({ focused }) => (
             <TabBarText focused={focused} title="Profil" />

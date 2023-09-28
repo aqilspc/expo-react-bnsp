@@ -62,7 +62,7 @@ const Login = (props) => {
                 const usernamePw = rows.item(0).password;
                 if(username == usernameDb)
                 {
-                   if(password == usernameDb)
+                   if(password == usernamePw)
                    {
                       alert('Selamat datang');
                       props.navigation.navigate("Home");
@@ -75,13 +75,11 @@ const Login = (props) => {
                 {
                   alert('salah username');
                 }
+                console.log(usernamePw);
               });
           });
        }
     }
-   
-    
-    
   };
 
   return (
