@@ -38,12 +38,12 @@ export default function ({ navigation }) {
     // Mengambil data dari database saat aplikasi dimuat
     fetchMasuk();
     fetchKeluar();
-    //saldoGet();
+    saldoGet();
   }, []);
 
   const fetchMasuk = () => {
     db.transaction((tx) => {
-      tx.executeSql('SELECT sum(nominal) as nominal FROM items WHERE tipe = "masuk" AND bulan = "9"', [], (_, { rows }) => {
+      tx.executeSql('SELECT sum(nominal) as nominal FROM items WHERE tipe = "masuk" AND bulan = ?', [bulan], (_, { rows }) => {
         const len = rows.item(0).nominal;
          console.log(`Data masuk: ${len}`);
          setMasuk(len);
@@ -53,7 +53,7 @@ export default function ({ navigation }) {
 
    const fetchKeluar = () => {
     db.transaction((tx) => {
-      tx.executeSql('SELECT sum(nominal) as nominal FROM items WHERE tipe = "keluar" AND  bulan = "9"', [], (_, { rows }) => {
+      tx.executeSql('SELECT sum(nominal) as nominal FROM items WHERE tipe = "keluar" AND  bulan = ?', [bulan], (_, { rows }) => {
         const len = rows.item(0).nominal;
          console.log(`Data keluar: ${len}`);
          setKeluar(len);
@@ -61,11 +61,13 @@ export default function ({ navigation }) {
     });
   };
 
-  // const saldoGet = () => {
-  //   let oke = masuk - keluar;
-  //   console.log(oke); 
-  //   setSaldo(oke);
-  // };
+  const saldoGet = () => {
+    fetchMasuk();
+    fetchKeluar();
+    let oke = masuk - keluar;
+    console.log(oke); 
+    setSaldo(oke);
+  };
 
   const { isDarkmode, setTheme } = useTheme();
   return (
@@ -104,7 +106,7 @@ export default function ({ navigation }) {
              </Text>
 
               <Text style={{ textAlign: "center",color: "orange" }}>
-                Saldo : Rp. {parseInt(masuk - keluar).toLocaleString()}
+                Saldo : Rp. {parseInt(saldo).toLocaleString()}
              </Text>
 
             <Button
@@ -121,6 +123,10 @@ export default function ({ navigation }) {
                 marginTop: 15,
               }}
             />
+             <Button style={{ 
+                marginTop: 30,
+                marginBottom: 10,
+              }} status="success" text="Perbarui Saldo" onPress={saldoGet} />
           </SectionContent>
         </Section>
       </View>

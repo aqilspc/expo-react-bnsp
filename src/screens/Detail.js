@@ -133,7 +133,10 @@ function MyFlatList({ data }) {
 				alignItems: 'center',
 				justifyContent: 'center',
 			}}>
-
+      <Button style={{ 
+        marginTop: 30,
+        marginBottom: 10,
+      }} status="warning" text="Perbarui Data" onPress={fetchItems} />
       <Text style={{ 
 		    paddingTop: 30,
 		    marginBottom: 10,

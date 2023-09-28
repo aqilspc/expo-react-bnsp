@@ -4,7 +4,7 @@ import { ThemeProvider } from "react-native-rapi-ui";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, Text, } from 'react-native';
 import { Button } from 'react-native-rapi-ui';
-
+import Routes from './src/route';
 export default function App() {
   const [username, setUsername] = useState('');
   const [logged_in, setLoggedIn] = useState(false);
@@ -12,6 +12,7 @@ export default function App() {
   var masterUsername = 'admin';
   var masterPassword = 'admin';
   useEffect(() => {
+    console.log('a');
     cekLogin();
   }, []);
 
@@ -43,6 +44,7 @@ export default function App() {
       const y = await AsyncStorage.getItem('logged_in');
       setUsername(x);
       setLoggedIn(y);
+       console.log('ss');
     } catch (e) {
       console.log(e);
     }
@@ -54,7 +56,7 @@ export default function App() {
       {isLoggedIn ? (
         <AppNavigator />
       ) : (
-        <Button style={{marginTop:300}} status="warning" text="Login"  />
+        <Routes />
       )}
     </ThemeProvider>
   );
