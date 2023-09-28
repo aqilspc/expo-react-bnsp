@@ -9,8 +9,7 @@ export default function App() {
   const [username, setUsername] = useState('');
   const [logged_in, setLoggedIn] = useState(false);
   
-  var masterUsername = 'admin';
-  var masterPassword = 'admin';
+  
   useEffect(() => {
     console.log('a');
     cekLogin();

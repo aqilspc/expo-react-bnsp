@@ -1,45 +1,87 @@
 import React, { useEffect, useState } from "react";
 // import { FontAwesome,MaterialIcons,Octicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { FontAwesome } from '@expo/vector-icons';
 import { 
         Text, Button, View, 
         Alert, ScrollView, TextInput,
-        TouchableOpacity,Image,AsyncStorage } 
+        TouchableOpacity,Image } 
   from "react-native";
+import * as SQLite from 'expo-sqlite';
+const db = SQLite.openDatabase('db.testDb'); // returns Database object
 
 const Login = (props) => {
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-
+  var masterUsername = 'admin';
+  var masterPassword = 'admin';
   useEffect(() => {
     const initiate = async () => {};
     initiate();
+
+      db.transaction((tx) => {
+        tx.executeSql(
+          'CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT,password TEXT)'
+        );
+      });
+
+      //buat user
+      // db.transaction((tx) => {
+      //   tx.executeSql('INSERT INTO users (name,password) VALUES (?,?)', 
+      //     [masterUsername,masterPassword], (_, { insertId }) => {
+      //     console.log(`Data berhasil ditambahkan dengan ID: ${insertId}`);
+      //   });
+      // });
+
+      //cek user
+      // db.transaction((tx) => {
+      //   tx.executeSql('SELECT * FROM users', [], (_, { rows }) => {
+      //     const data = [];
+      //     const len = rows.item(0).name;
+      //     console.log(len);
+      //   });
+      // });
+
   }, []);
 
   //api handle
   const login = async () => {
-
-    // fetch("https://mynotebackend.intermediatech.link/login_user", {
-    //   method: "POST",
-    //   headers: new Headers({
-    //     "Content-Type": "application/x-www-form-urlencoded",
-    //   }),
-    //   body: "&username=" + username + "&password=" + password,
-    // })
-    //   .then((response) => response.json())
-    //   .then((responseJson) => {
-    //     if (responseJson.status === "success") {
-    //       AsyncStorage.setItem('id_user', JSON.stringify(responseJson.result.id));
-    //       AsyncStorage.setItem('name', responseJson.result.name);
-    //       props.navigation.navigate("Home")
-    //     } else {
-    //       Alert.alert("",responseJson.result)
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
-    props.navigation.navigate("Home")
+    if(username == "")
+    {
+      alert('isi username');
+    }else
+    {
+       if(password == "")
+       {
+         alert('isi password');
+       }else
+       {
+           db.transaction((tx) => {
+            tx.executeSql('SELECT * FROM users', [], (_, { rows }) => {
+                const usernameDb = rows.item(0).name;
+                const usernamePw = rows.item(0).password;
+                if(username == usernameDb)
+                {
+                   if(password == usernameDb)
+                   {
+                      alert('Selamat datang');
+                      props.navigation.navigate("Home");
+                       
+                   }else
+                   {
+                      alert('salah password');
+                   }
+                }else
+                {
+                  alert('salah username');
+                }
+              });
+          });
+       }
+    }
+   
+    
+    
   };
 
   return (
