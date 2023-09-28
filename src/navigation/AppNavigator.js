@@ -7,6 +7,7 @@ import { themeColor, useTheme } from "react-native-rapi-ui";
 import TabBarIcon from "../components/utils/TabBarIcon";
 import TabBarText from "../components/utils/TabBarText";
 
+import Login from "../screens/Login";
 import Home from "../screens/Home";
 import SecondScreen from "../screens/SecondScreen";
 import Pengeluaran from "../screens/Pengeluaran";
@@ -23,6 +24,7 @@ const Main = () => {
     >
       <MainStack.Screen name="MainTabs" component={MainTabs} />
       <MainStack.Screen name="SecondScreen" component={SecondScreen} />
+      <MainStack.Screen name="loginPage" component={Login} />
     </MainStack.Navigator>
   );
 };

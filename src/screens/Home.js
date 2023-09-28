@@ -127,6 +127,7 @@ export default function ({ navigation }) {
                 marginTop: 30,
                 marginBottom: 10,
               }} status="success" text="Perbarui Saldo" onPress={saldoGet} />
+        
           </SectionContent>
         </Section>
       </View>

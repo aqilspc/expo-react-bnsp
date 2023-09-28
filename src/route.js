@@ -28,6 +28,7 @@ const Main = () => {
       }}
     >
       <Stack.Screen name="MainTabs" component={MainTabs} />
+      <Stack.Screen name="loginPage" component={Login} />
     </Stack.Navigator>
   );
 };
